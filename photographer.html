@@ -1,41 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 	<head>
 		<link href="css/style.css" rel="stylesheet" type="text/css" />
 		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="icon" type="image/png" href="assets/favicon.png" />
 		<link
 			href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
 			rel="stylesheet"
 		/>
+		<link 
+			rel="stylesheet" 
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" 
+			integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" 
+			crossorigin="anonymous" 
+			referrerpolicy="no-referrer" 
+		/>
 		<title>Fisheye - photographe</title>
 	</head>
 	<body>
 		<header>
-			<img src="assets/images/logo.png" class="logo" />
+			<a href="/" tabindex="1">
+				<img src="assets/images/logo.png" class="logo" alt="fisheye logo"/>
+			</a>
 		</header>
 		<main id="main">
-			<div class="photograph-header">
-				<button class="contact_button" onclick="displayModal()">
-					Contactez-moi
-				</button>
-			</div>
+			<section class="photograph-header"></section>
+			<section class="photograph-sorting">
+				<h2>Trier par</h2>
+				<div class="select-container">
+					<select tabindex="2" aria-label="trier par">
+						<option value="popularity">Popularité</option>
+						<option value="date">Date</option>
+						<option value="title">Titre</option>
+					</select>
+				</div>
+			</section>
+			<section class="photograph-galary">
+				<div class="galary-wrapper" aria-hidden="false"></div>
+			</section>
 		</main>
-		<div id="contact_modal">
-			<div class="modal">
+		<div id="contact_modal" aria-hidden="true" rol="dialog">
+			<div class="modal" role="document">
 				<header>
 					<h2>Contactez-moi</h2>
-					<img src="assets/icons/close.svg" onclick="closeModal()" />
+					<button  onclick="closeModal()" aria-label="Close">
+						<img src="assets/icons/close.svg" alt="close button" aria-hidden="true"/>
+					</button>
 				</header>
-				<form>
-					<div>
-						<label>Prénom</label>
-						<input />
+				<form id="form-contact">
+					<div class="form-group">
+						<label for="firstName">Prénom</label>
+						<input type="text" id="firstName" name="firstname" aria-labelledby=""/>
 					</div>
-					<button class="contact_button">Envoyer</button>
+					<div class="form-group">
+						<label for="lastName">Nom</label>
+						<input type="text" id="lastName" name="lastname"/>
+					</div>
+					<div class="form-group">
+						<label for="email">Email</label>
+						<input type="email" id="email" name="email"/>
+					</div>
+					<div class="form-group">
+						<label for="message">Message</label>
+						<textarea id="message" name="message"></textarea>
+					</div>
+					<button class="contact_button" type="submit">Envoyer</button>
 				</form>
 			</div>
 		</div>
+		<script src="/scripts/utils/fetchData.js"></script>
 		<script src="/scripts/pages/photographer.js"></script>
 		<script src="/scripts/utils/contactForm.js"></script>
 	</body>
