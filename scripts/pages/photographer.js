@@ -1,4 +1,4 @@
-// Gets photograper
+// ----------------------- Gets photograper ----------------------
 const getPhotographerData = async () => {
     const ID = new URL(document.location.href).searchParams.get('id');
 
@@ -11,7 +11,7 @@ const getPhotographerData = async () => {
 };
 
 
-// Sets photograper header
+// ----------------------- Sets photograper header -----------------------
 const setPhotograperHeader = (name, city, country, tagline, portrait) => {
     const photographerHeader = document.querySelector(".photograph-header");
 
@@ -36,7 +36,7 @@ const setPhotograperHeader = (name, city, country, tagline, portrait) => {
 
 let totalLikes = 0;
 
-// Creates factory pattern
+// ----------------------- Creates factory pattern -----------------------
 const mediaFactory = (object, name, cardIndex) => {  
 
     const media = {
@@ -70,7 +70,7 @@ const mediaFactory = (object, name, cardIndex) => {
 };
 
 
-// Calls factory function
+// ----------------------- Calls factory function -----------------------
 const callFactoryFunction = (filteredPhotographerMedia, name) => {
     
     const photographerMedia = document.querySelector(".galary-wrapper");
@@ -84,7 +84,7 @@ const callFactoryFunction = (filteredPhotographerMedia, name) => {
 };
 
 
-// Adding likes and pricing info
+// ----------------------- Adding likes and pricing info -----------------------
 const addTotalLikesAndPricingInfo = (price) => {
     const photographerMedia = document.querySelector(".galary-wrapper");
 
@@ -115,7 +115,7 @@ const addTotalLikesAndPricingInfo = (price) => {
 };
 
 
-// Sorting media
+// ----------------------- Sorting media -----------------------
 const sortingMedia = (filteredPhotographerMedia, name) => {
     const select = document.querySelector('.select-container>select');
 
@@ -148,7 +148,7 @@ const sortingMedia = (filteredPhotographerMedia, name) => {
     });
 };
 
-// Creating lightbox
+// ----------------------- Creating lightbox -----------------------
 const createLightboxElements = () => {
     const cards = document.getElementsByClassName('card');
    
@@ -324,7 +324,7 @@ const createLightboxElements = () => {
 };
 
 
-// Handles form inuts
+// ----------------------- Handles form inuts -----------------------
 const handleFormSubmit = (photograperName) => {
     const formContact =  document.getElementById('form-contact');
     const firstName = document.getElementById('firstName');
@@ -365,7 +365,8 @@ const handleFormSubmit = (photograperName) => {
     });
 };
 
-// inits photograper
+
+// ----------------------- inits photograper -----------------------
 const initPhotographer = async () => {
     const { filteredPhotographer, filteredPhotographerMedia } = await getPhotographerData();
 
