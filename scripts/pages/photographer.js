@@ -50,8 +50,8 @@ const mediaFactory = (object, name, cardIndex) => {
 
             const ExtentionType = media.mediaUrl.split('.')[1];
             const mediaElement = ExtentionType === 'mp4' ?
-                `<video tabindex=${3 + cardIndex} controls><source src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}"/></video>`
-                : `<img tabindex=${3 + cardIndex} src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}" alt="${media.title}">`                
+                `<video tabindex=${5 + cardIndex} controls><source src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}"/></video>`
+                : `<img tabindex=${5 + cardIndex} src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}" alt="${media.title}">`                
             
             return `
                 <div class="card" data-index="${cardIndex++}">        
@@ -125,23 +125,23 @@ const sortingMedia = (filteredPhotographerMedia, name) => {
         
         const sortedPhotographerMedia = filteredPhotographerMedia.sort((a, b) => {
 
-                if(filterType === 'popularity') {
+            if(filterType === 'popularity') {
 
-                    return b.likes - a.likes;
+                return b.likes - a.likes;
 
-                } else if (filterType === 'title') {
+            } else if (filterType === 'title') {
 
-                    const titleA = a.title.toLowerCase();
-                    const titleB = b.title.toLowerCase();
+                const titleA = a.title.toLowerCase();
+                const titleB = b.title.toLowerCase();
 
-                    if (titleA < titleB) return -1;
-                    if (titleA > titleB) return 1;
-                    
-                } else if(filterType === 'date') {
-                    if (new Date(a.date) > new Date(b.date)) return -1;
-                    if (new Date(a.date) < new Date(b.date)) return 1;
-                }
-            });
+                if (titleA < titleB) return -1;
+                if (titleA > titleB) return 1;
+                
+            } else if(filterType === 'date') {
+                if (new Date(a.date) > new Date(b.date)) return -1;
+                if (new Date(a.date) < new Date(b.date)) return 1;
+            }
+        });
         // console.log(sortedPhotographerMedia);
         callFactoryFunction(sortedPhotographerMedia, name);
         createLightboxElements();
@@ -193,27 +193,27 @@ const createLightboxElements = () => {
 
     const lightBoxMediaAttributes = {
         role: 'media',
-        'aria-label': 'current media'
+        'aria-label': 'le média actuel'
     }
 
     const lightBoxNextAttributes = {
         role: 'button',
-        tabindex: "1",
+        tabindex: "2",
         'aria-controls': 'lightbox-content',
-        'aria-label': 'next image'
+        'aria-label': 'image suivante'
     }
 
     const lightBoxPrevAttributes = {
         role: 'button',
-        tabindex: "2",
+        tabindex: "3",
         'aria-controls': 'lightbox-content',
-        'aria-label': 'previous image'
+        'aria-label': 'image précédente'
     }
 
     const lightBoxXMarkAttributes = {
         role: 'button',
-        tabindex: "0",
-        'aria-label': 'close dialog'
+        tabindex: "1",
+        'aria-label': 'fermer la bôite de dialogue'
     }
 
     addingAtributes(lightBoxCotainer, lightBoxCotainerAttributes);

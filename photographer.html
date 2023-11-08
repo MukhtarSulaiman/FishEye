@@ -27,9 +27,9 @@
 		<main id="main">
 			<section class="photograph-header"></section>
 			<section class="photograph-sorting">
-				<h2>Trier par</h2>
+				<label for="select">Trier par :</label>
 				<div class="select-container">
-					<select tabindex="2" aria-label="trier par">
+					<select id="select" tabindex="4" aria-label="trier par">
 						<option value="popularity">Popularité</option>
 						<option value="date">Date</option>
 						<option value="title">Titre</option>
@@ -40,18 +40,18 @@
 				<div class="galary-wrapper" aria-hidden="false"></div>
 			</section>
 		</main>
-		<div id="contact_modal" aria-hidden="true" rol="dialog">
+		<div id="contact_modal" aria-modal="true" tabindex="3" rol="dialog">
 			<div class="modal" role="document">
 				<header>
 					<h2>Contactez-moi</h2>
 					<button  onclick="closeModal()" aria-label="Close">
-						<img src="assets/icons/close.svg" alt="close button" aria-hidden="true"/>
+						<img src="assets/icons/close.svg" alt="close button" aria-hidden="true" tabindex="0"/>
 					</button>
 				</header>
 				<form id="form-contact">
 					<div class="form-group">
-						<label for="firstName">Prénom</label>
-						<input type="text" id="firstName" name="firstname" aria-labelledby=""/>
+						<label for="firstName" aria-labelledby="firstName">Prénom</label>
+						<input type="text" id="firstName" name="firstname"/>
 					</div>
 					<div class="form-group">
 						<label for="lastName">Nom</label>
