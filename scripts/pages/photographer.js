@@ -229,7 +229,6 @@ const createLightboxElements = () => {
     lightBoxCotainer.appendChild(lightBoxContent);  
     lightBoxContent.appendChild(lightBoxImage);
     lightBoxContent.appendChild(lightBoxVideo);
-    lightBoxContent.appendChild(lightBoxH2);
     lightBoxContent.appendChild(lightBoxPrev);
     lightBoxContent.appendChild(lightBoxNext);
     lightBoxContent.appendChild(lightBoxXMark);
@@ -248,6 +247,7 @@ const createLightboxElements = () => {
         const titleLocation = cards[index].children[1].children[0].textContent;
 
         lightBoxH2.innerHTML = titleLocation;
+        lightBoxContent.appendChild(lightBoxH2);
         
         const tagName = mediaLocation.tagName === 'IMG' ? 'img' : 'video'
 
