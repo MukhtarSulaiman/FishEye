@@ -50,14 +50,14 @@ const mediaFactory = (object, name, cardIndex) => {
 
             const ExtentionType = media.mediaUrl.split('.')[1];
             const mediaElement = ExtentionType === 'mp4' ?
-                `<video tabindex=${5 + cardIndex} controls><source src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}"/></video>`
-                : `<img tabindex=${5 + cardIndex} src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}" alt="${media.title}">`                
+                `<video tabindex=${5 + cardIndex} aria-label="le media ${media.title}" controls><source src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}"/></video>`
+                : `<img tabindex=${5 + cardIndex} src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}" alt="le médial ${media.title}">`                
             
             return `
-                <div class="card" data-index="${cardIndex++}">        
+                <div class="card" data-index="${cardIndex++}" >        
                     ${ mediaElement }
                     <figcaption>
-                        <h2>${media.title}</h2>
+                        <h2 aria-hidden="true">${media.title}</h2>
                         <div>
                             <small aria-label="likes">${media.likes}</small>
                             <i class="fa-solid fa-heart" aria-hidden="true"></i>
@@ -148,12 +148,13 @@ const sortingMedia = (filteredPhotographerMedia, name) => {
     });
 };
 
+
 // ----------------------- Creating lightbox -----------------------
 const createLightboxElements = () => {
     const cards = document.getElementsByClassName('card');
    
     // Creating elements
-    const lightBoxCotainer = document.createElement('div');
+    const lightBoxContainer = document.createElement('section');
     const lightBoxContent = document.createElement('div');
     const lightBoxImage = document.createElement('img');
     const lightBoxVideo = document.createElement('video');
@@ -164,7 +165,7 @@ const createLightboxElements = () => {
     const lightBoxXMark = document.createElement('i');
 
     // Adding classes
-    lightBoxCotainer.classList.add('lightbox');
+    lightBoxContainer.classList.add('lightbox');
     lightBoxContent.classList.add('lightbox-content');
     lightBoxImage.classList.add('lightbox-image');
     lightBoxPrev.classList.add('fa', 'fa-angle-left', 'light-box-prev');
@@ -180,15 +181,15 @@ const createLightboxElements = () => {
         }
     };
 
-    const lightBoxCotainerAttributes = {
+    const lightBoxContainerAttributes = {
         role: 'dialog',
         'aria-modal': 'true',
-        'aria-hidden': 'true'
+        // 'aria-hidden': 'true'
     }
 
     const lightBoxContentAttributes = {
         id: 'lightbox-content',
-        'aria-label': 'Media closeup view'
+        'aria-label': 'Vue rapprochée du média'
     }
 
     const lightBoxMediaAttributes = {
@@ -196,44 +197,48 @@ const createLightboxElements = () => {
         'aria-label': 'le média actuel'
     }
 
+    const lightBoxH2Attributes = {
+        'aria-hidden': 'true'
+    }
+
     const lightBoxNextAttributes = {
         role: 'button',
-        tabindex: "2",
+        tabindex: "101",
         'aria-controls': 'lightbox-content',
         'aria-label': 'image suivante'
     }
 
     const lightBoxPrevAttributes = {
         role: 'button',
-        tabindex: "3",
+        tabindex: "100",
         'aria-controls': 'lightbox-content',
         'aria-label': 'image précédente'
     }
 
     const lightBoxXMarkAttributes = {
         role: 'button',
-        tabindex: "1",
+        tabindex: "102",
         'aria-label': 'fermer la bôite de dialogue'
     }
 
-    addingAtributes(lightBoxCotainer, lightBoxCotainerAttributes);
+    addingAtributes(lightBoxContainer, lightBoxContainerAttributes);
     addingAtributes(lightBoxContent, lightBoxContentAttributes);
     addingAtributes(lightBoxImage, lightBoxMediaAttributes);
     addingAtributes(lightBoxVideo, lightBoxMediaAttributes);
+    addingAtributes(lightBoxH2, lightBoxH2Attributes);
     addingAtributes(lightBoxNext, lightBoxNextAttributes);
     addingAtributes(lightBoxPrev, lightBoxPrevAttributes);
     addingAtributes(lightBoxXMark, lightBoxXMarkAttributes);
 
-
     // Appending child elements
-    lightBoxCotainer.appendChild(lightBoxContent);  
+    lightBoxContainer.appendChild(lightBoxContent);  
     lightBoxContent.appendChild(lightBoxImage);
     lightBoxContent.appendChild(lightBoxVideo);
     lightBoxContent.appendChild(lightBoxPrev);
     lightBoxContent.appendChild(lightBoxNext);
     lightBoxContent.appendChild(lightBoxXMark);
 
-    document.body.appendChild(lightBoxCotainer);
+    document.body.appendChild(lightBoxContainer);
    
     let index = 0;
 
@@ -247,7 +252,6 @@ const createLightboxElements = () => {
         const titleLocation = cards[index].children[1].children[0].textContent;
 
         lightBoxH2.innerHTML = titleLocation;
-        lightBoxContent.appendChild(lightBoxH2);
         
         const tagName = mediaLocation.tagName === 'IMG' ? 'img' : 'video'
 
@@ -257,7 +261,7 @@ const createLightboxElements = () => {
             lightBoxImage.style.display = 'block';
 
             lightBoxImage.setAttribute('src',  mediaLocation.getAttribute('src'));
-            lightBoxImage.setAttribute('alt', titleLocation);
+            // lightBoxImage.setAttribute('alt', titleLocation);
 
         } else if(mediaType === 'video' ||  tagName === 'video') {
 
@@ -271,8 +275,9 @@ const createLightboxElements = () => {
             lightBoxSource.setAttribute('src', mediaLocation.children[0].getAttribute('src'));
         }
 
-        lightBoxCotainer.style.display = 'block';
-        lightBoxCotainer.setAttribute('aria-hidden', 'false');
+        lightBoxContainer.style.display = 'block';
+        // lightBoxContent.focus();
+        lightBoxContainer.setAttribute('aria-hidden', 'false');
         cards[1].parentNode.setAttribute('aria-hidden', 'true');
     };
 
@@ -293,7 +298,6 @@ const createLightboxElements = () => {
         });
     })
 
-
     // Next and previous buttons area
     function sliderImage(currentIndex) { showLightBox(index + currentIndex) };
 
@@ -305,8 +309,8 @@ const createLightboxElements = () => {
 
     // Closing lightBox
     function closeLightbox(event) {
-        lightBoxCotainer.style.display = 'none';
-        lightBoxCotainer.setAttribute('aria-hidden', 'true');
+        lightBoxContainer.style.display = 'none';
+        lightBoxContainer.setAttribute('aria-hidden', 'true');
         cards[1].parentNode.setAttribute('aria-hidden', 'false');
     };
 
@@ -315,6 +319,7 @@ const createLightboxElements = () => {
         if(event.key === 'Enter') closeLightbox();
     });
     
+    // Keyboard events
     document.addEventListener('keydown', (event) => {
         if(event.key === 'Escape') closeLightbox();
 
