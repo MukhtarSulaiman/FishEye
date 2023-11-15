@@ -24,7 +24,7 @@ const setPhotograperHeader = (name, city, country, tagline, portrait) => {
             <p>${tagline}</p>
             <!-- <small>200€/jour</small> -->
         </div>
-        <button class="contact_button" onclick="displayModal()" type="button" aria-label="Ouvrir le formulaire de contact" tabindex="2">
+        <button class="contact_button" onclick="displayModal()" type="button" aria-label="Ouvrir le formulaire de contact" tabindex="2" aria-pressed="false">
             Contactez-moi
         </button>
         <img src="${picture}" alt="${name}">
@@ -114,6 +114,38 @@ const addTotalLikesAndPricingInfo = (price) => {
     });
 };
 
+// Customizing select
+const customizeSelectElement = () => {
+    const select = document.querySelector('.select-container>select');
+
+    select.addEventListener('mousedown', (event) => {
+    
+        event.preventDefault();
+
+        const dropdown = document.createElement('ul');
+        dropdown.className = 'selector-options';
+
+        [...select.children].forEach(option => {
+            const dropdownOptions = document.createElement('li');
+            dropdownOptions.textContent = option.textContent;
+            dropdown.appendChild(dropdownOptions);
+
+            dropdownOptions.addEventListener('mousedown', (e) => {
+                event.stopPropagation();
+
+                select.value = option.value;
+                select.parentElement.value = option.value;
+                select.dispatchEvent(new Event('change'));
+                select.parentElement.dispatchEvent(new Event('change'));
+                dropdown.remove();
+            });
+
+        });
+
+        select.parentElement.appendChild(dropdown);
+    });
+};
+
 
 // ----------------------- Sorting media -----------------------
 const sortingMedia = (filteredPhotographerMedia, name) => {
@@ -151,6 +183,7 @@ const sortingMedia = (filteredPhotographerMedia, name) => {
 
 // ----------------------- Creating lightbox -----------------------
 const createLightboxElements = () => {
+    const main = document.querySelector('main');
     const cards = document.getElementsByClassName('card');
    
     // Creating elements
@@ -238,7 +271,7 @@ const createLightboxElements = () => {
     lightBoxContent.appendChild(lightBoxNext);
     lightBoxContent.appendChild(lightBoxXMark);
 
-    document.body.appendChild(lightBoxContainer);
+    main.appendChild(lightBoxContainer);
    
     let index = 0;
 
@@ -380,6 +413,7 @@ const initPhotographer = async () => {
     setPhotograperHeader(name, city, country, tagline, portrait);
     callFactoryFunction(filteredPhotographerMedia, name);
     addTotalLikesAndPricingInfo(price);
+    customizeSelectElement();
     sortingMedia(filteredPhotographerMedia, name);
     createLightboxElements();
     handleFormSubmit(name);
