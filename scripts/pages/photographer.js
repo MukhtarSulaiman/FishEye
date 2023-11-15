@@ -120,10 +120,11 @@ const customizeSelectElement = () => {
 
     select.addEventListener('mousedown', (event) => {
     
+        select.parentElement.classList.toggle('select-collapse');
         event.preventDefault();
 
+
         const dropdown = document.createElement('ul');
-        dropdown.className = 'selector-options';
 
         [...select.children].forEach(option => {
             const dropdownOptions = document.createElement('li');
@@ -138,6 +139,7 @@ const customizeSelectElement = () => {
                 select.dispatchEvent(new Event('change'));
                 select.parentElement.dispatchEvent(new Event('change'));
                 dropdown.remove();
+                select.parentElement.classList.toggle('select-collapse');
             });
 
         });
