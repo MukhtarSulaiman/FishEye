@@ -1,3 +1,4 @@
+import { addingAtributes } from '../utils/addAttributes.js';
 // ----------------------- Gets photograper ----------------------
 const getPhotographerData = async () => {
     const ID = new URL(document.location.href).searchParams.get('id');
@@ -207,15 +208,6 @@ const createLightboxElements = () => {
     lightBoxNext.classList.add('fa', 'fa-angle-right', 'light-box-next');
     lightBoxXMark.classList.add('fa', 'fa-xmark', 'light-box-remove-btn');
 
-    // Adding attributes
-    function addingAtributes(element, attributes) {
-        for(let key in attributes) {
-            if(attributes.hasOwnProperty(key)) {
-                element.setAttribute(key, attributes[key]);
-            }
-        }
-    };
-
     const lightBoxContainerAttributes = {
         role: 'dialog',
         'aria-modal': 'true',
@@ -256,6 +248,7 @@ const createLightboxElements = () => {
         'aria-label': 'fermer la bôite de dialogue'
     }
 
+    // Adding attributes
     addingAtributes(lightBoxContainer, lightBoxContainerAttributes);
     addingAtributes(lightBoxContent, lightBoxContentAttributes);
     addingAtributes(lightBoxImage, lightBoxMediaAttributes);
