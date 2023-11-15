@@ -1,4 +1,6 @@
+import { fetchPhotographers } from "../utils/fetchData.js";
 import { addingAtributes } from '../utils/addAttributes.js';
+
 // ----------------------- Gets photograper ----------------------
 const getPhotographerData = async () => {
     const ID = new URL(document.location.href).searchParams.get('id');

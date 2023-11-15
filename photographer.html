@@ -30,11 +30,11 @@
 
 			<!-- Contact modal -->
 			<div id="contact_modal" role="dialog">
-				<div class="modal" role="document">
+				<div class="modal">
 					<header>
 						<h2>Contactez-moi</h2>
-						<button  onclick="closeModal()" aria-label="Close">
-							<img src="assets/icons/close.svg" alt="close button" aria-hidden="true" tabindex="0"/>
+						<button  onclick="closeModal()" aria-label="fermer le modal">
+							<img src="assets/icons/close.svg" alt="icône de fermeture" aria-hidden="true"/>
 						</button>
 					</header>
 					<form id="form-contact">
@@ -54,7 +54,7 @@
 							<label for="message">Message</label>
 							<textarea id="message" name="message" aria-label="Entrez votre message" aria-required="true"></textarea>
 						</div>
-						<button class="contact_button" type="submit">Envoyer</button>
+						<button class="contact_button" type="submit" aria-label="Envoyer le formulaire">Envoyer</button>
 					</form>
 				</div>
 			</div>
@@ -75,8 +75,7 @@
 			</section>
 		</main>
 
-		<script src="/scripts/utils/fetchData.js"></script>
-		<script src="/scripts/pages/photographer.js"></script>
+		<script type="module" src="/scripts/pages/photographer.js"></script>
 		<script src="/scripts/utils/contactForm.js"></script>
 	</body>
 </html>
