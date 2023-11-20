@@ -1,6 +1,9 @@
 import { fetchPhotographers } from "../utils/fetchData.js";
 import { addingAtributes } from '../utils/addAttributes.js';
 
+const main = document.querySelector('main');
+const select = document.querySelector('.select-container>select');
+
 // ----------------------- Gets photograper ----------------------
 const getPhotographerData = async () => {
     const ID = new URL(document.location.href).searchParams.get('id');
@@ -27,7 +30,7 @@ const setPhotograperHeader = (name, city, country, tagline, portrait) => {
             <p>${tagline}</p>
             <!-- <small>200€/jour</small> -->
         </div>
-        <button class="contact_button" onclick="displayModal()" type="button" aria-label="Ouvrir le formulaire de contact" tabindex="2" aria-pressed="false">
+        <button class="contact_button" onclick="displayModal()" type="button" aria-label="Ouvrir le formulaire de contact" tabindex="2">
             Contactez-moi
         </button>
         <img src="${picture}" alt="${name}">
@@ -53,7 +56,7 @@ const mediaFactory = (object, name, cardIndex) => {
 
             const ExtentionType = media.mediaUrl.split('.')[1];
             const mediaElement = ExtentionType === 'mp4' ?
-                `<video tabindex=${5 + cardIndex} aria-label="le media ${media.title}" controls><source src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}"/></video>`
+                `<video tabindex=${5 + cardIndex} aria-label="ouvrir le media ${media.title}" controls><source src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}"/></video>`
                 : `<img tabindex=${5 + cardIndex} src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}" alt="le médial ${media.title}">`                
             
             return `
@@ -119,20 +122,30 @@ const addTotalLikesAndPricingInfo = (price) => {
 
 // Customizing select
 const customizeSelectElement = () => {
-    const select = document.querySelector('.select-container>select');
-
     select.addEventListener('mousedown', (event) => {
     
         select.parentElement.classList.toggle('select-collapse');
         event.preventDefault();
 
-
         const dropdown = document.createElement('ul');
+        addingAtributes(dropdown, {
+             role: 'listbox', 
+             tabindex: '0',
+             'aria-activedescendant': 'listbox-1'
+        });
+
+        let listbox = 1;
 
         [...select.children].forEach(option => {
             const dropdownOptions = document.createElement('li');
             dropdownOptions.textContent = option.textContent;
             dropdown.appendChild(dropdownOptions);
+
+            addingAtributes(dropdownOptions, {
+                role: 'option',
+                id: `listbox-${listbox++}`,
+                'aria-selected': listbox === 1 ? 'true' : ''
+            });
 
             dropdownOptions.addEventListener('mousedown', (e) => {
                 event.stopPropagation();
@@ -144,7 +157,6 @@ const customizeSelectElement = () => {
                 dropdown.remove();
                 select.parentElement.classList.toggle('select-collapse');
             });
-
         });
 
         select.parentElement.appendChild(dropdown);
@@ -154,7 +166,6 @@ const customizeSelectElement = () => {
 
 // ----------------------- Sorting media -----------------------
 const sortingMedia = (filteredPhotographerMedia, name) => {
-    const select = document.querySelector('.select-container>select');
 
     select.addEventListener('change', (event) => {
 
@@ -188,7 +199,6 @@ const sortingMedia = (filteredPhotographerMedia, name) => {
 
 // ----------------------- Creating lightbox -----------------------
 const createLightboxElements = () => {
-    const main = document.querySelector('main');
     const cards = document.getElementsByClassName('card');
    
     // Creating elements
