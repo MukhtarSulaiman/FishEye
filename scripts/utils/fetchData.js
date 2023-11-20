@@ -7,11 +7,13 @@ const fetchPhotographers = async () => {
         }
 
         const data = await response.json();
+        console.log('Les données sont récupérées avec succès !');
         
         return data;
 
     } catch (error) {
         console.error(error)
     }
-}
+};
 
+export { fetchPhotographers };
