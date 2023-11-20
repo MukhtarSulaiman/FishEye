@@ -44,7 +44,7 @@ let totalLikes = 0;
 
 // ----------------------- Creates factory pattern -----------------------
 const mediaFactory = (object, name, cardIndex) => {  
-
+    
     const media = {
         title: object.title,
         mediaUrl: object.image ? object.image : object.video,
@@ -83,6 +83,7 @@ const callFactoryFunction = (filteredPhotographerMedia, name) => {
     photographerMedia.replaceChildren();
 
     let cardIndex = 0;
+    totalLikes = 0;
 
     filteredPhotographerMedia.forEach(media =>{ 
         photographerMedia.innerHTML += mediaFactory(media, name, cardIndex++).createMedia();
@@ -92,7 +93,7 @@ const callFactoryFunction = (filteredPhotographerMedia, name) => {
 
 // ----------------------- Adding likes and pricing info -----------------------
 const addTotalLikesAndPricingInfo = (price) => {
-    const photographerMedia = document.querySelector(".galary-wrapper");
+    const photographerMedia = document.querySelector(".photograph-total-likes");
 
     const likesAndPricing = `
         <div class="photograph-likes-pricing">
@@ -102,20 +103,36 @@ const addTotalLikesAndPricingInfo = (price) => {
             <span>${price}€ / jour</span>
         </div>`;
 
-    photographerMedia.parentElement.innerHTML  += likesAndPricing;
+        photographerMedia.innerHTML = likesAndPricing;
 
     const totalMediaLikes = document.querySelector(".photograph-likes-pricing span");
 
     Array.from(document.querySelectorAll('.galary-wrapper .card i')).map(like => {
         like.addEventListener('click', () => {
-
             const small = like.parentElement.firstElementChild;
             const likes =  parseInt(small.textContent);
-            small.textContent = likes + 1;
-            
             const parsedTotalMediaLikes = parseInt(totalMediaLikes.textContent);
-            totalMediaLikes.textContent = parsedTotalMediaLikes + 1;
-            
+
+            let dataListener = like.getAttribute('data-listener');
+           
+            if(dataListener === null) {
+                like.setAttribute('data-listener', true);
+
+                small.textContent = likes + 1;
+                totalMediaLikes.textContent = parsedTotalMediaLikes + 1;
+
+            } else {
+                if(dataListener == 'false') {
+                    like.setAttribute('data-listener', true);
+                    small.textContent = likes + 1;
+                    totalMediaLikes.textContent = parsedTotalMediaLikes + 1;
+
+                } else {
+                    like.setAttribute('data-listener', false);
+                    small.textContent = likes - 1;
+                    totalMediaLikes.textContent = parsedTotalMediaLikes - 1;
+                }
+            }
         });
     });
 };
@@ -165,13 +182,15 @@ const customizeSelectElement = () => {
 
 
 // ----------------------- Sorting media -----------------------
-const sortingMedia = (filteredPhotographerMedia, name) => {
+const sortingMedia = (filteredPhotographerMedia, name, price) => {
+
+   filteredPhotographerMedia.sort((a, b) =>  b.likes - a.likes);
 
     select.addEventListener('change', (event) => {
 
         const filterType = event.target.value;
         
-        const sortedPhotographerMedia = filteredPhotographerMedia.sort((a, b) => {
+       filteredPhotographerMedia.sort((a, b) => {
 
             if(filterType === 'popularity') {
 
@@ -190,10 +209,14 @@ const sortingMedia = (filteredPhotographerMedia, name) => {
                 if (new Date(a.date) < new Date(b.date)) return 1;
             }
         });
-        // console.log(sortedPhotographerMedia);
-        callFactoryFunction(sortedPhotographerMedia, name);
+       
+        callFactoryFunction(filteredPhotographerMedia, name);
+        addTotalLikesAndPricingInfo(price);
         createLightboxElements();
     });
+    callFactoryFunction(filteredPhotographerMedia, name);
+    addTotalLikesAndPricingInfo(price);
+
 };
 
 
@@ -418,10 +441,8 @@ const initPhotographer = async () => {
     const { id, name, city, country, tagline, price, portrait } = filteredPhotographer;
      
     setPhotograperHeader(name, city, country, tagline, portrait);
-    callFactoryFunction(filteredPhotographerMedia, name);
-    addTotalLikesAndPricingInfo(price);
     customizeSelectElement();
-    sortingMedia(filteredPhotographerMedia, name);
+    sortingMedia(filteredPhotographerMedia, name, price);
     createLightboxElements();
     handleFormSubmit(name);
 };

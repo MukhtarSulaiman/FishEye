@@ -307,6 +307,13 @@ form textarea {
     cursor: pointer;
 }
 
+.photograph-total-likes {
+    position: sticky;
+    left: 100%;
+    bottom: 0;
+    float: right;
+}
+
 .photograph-likes-pricing {
     width: 200px;
     height: 20px;
@@ -316,9 +323,7 @@ form textarea {
     align-items: center;
     border-radius: 3px;
     background-color: #DB8876;
-    position: sticky;
-    left: 100%;
-    bottom: 0;
+   
 }
 
 /********** Lightbox section **********/
