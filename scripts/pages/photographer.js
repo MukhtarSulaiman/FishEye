@@ -70,7 +70,7 @@ const mediaFactory = (object, name, cardIndex) => {
                     </figcaption>
                 </div>`;
         },
-    }
+    };
     return media;
 };
 
@@ -244,41 +244,41 @@ const createLightboxElements = () => {
         role: 'dialog',
         'aria-modal': 'true',
         // 'aria-hidden': 'true'
-    }
+    };
 
     const lightBoxContentAttributes = {
         id: 'lightbox-content',
         'aria-label': 'Vue rapprochée du média'
-    }
+    };
 
     const lightBoxMediaAttributes = {
         role: 'media',
         'aria-label': 'le média actuel'
-    }
+    };
 
     const lightBoxH2Attributes = {
         'aria-hidden': 'true'
-    }
+    };
 
     const lightBoxNextAttributes = {
         role: 'button',
         tabindex: '101',
         'aria-controls': 'lightbox-content',
         'aria-label': 'image suivante'
-    }
+    };
 
     const lightBoxPrevAttributes = {
         role: 'button',
         tabindex: '100',
         'aria-controls': 'lightbox-content',
         'aria-label': 'image précédente'
-    }
+    };
 
     const lightBoxXMarkAttributes = {
         role: 'button',
         tabindex: '102',
         'aria-label': 'fermer la bôite de dialogue'
-    }
+    };
 
     // Adding attributes
     addingAtributes(lightBoxContainer, lightBoxContainerAttributes);
@@ -313,7 +313,7 @@ const createLightboxElements = () => {
 
         lightBoxH2.innerHTML = titleLocation;
 
-        const tagName = mediaLocation.tagName === 'IMG' ? 'img' : 'video'
+        const tagName = mediaLocation.tagName === 'IMG' ? 'img' : 'video';
 
         if(mediaType === 'img' || tagName === 'img'){
 
@@ -339,7 +339,7 @@ const createLightboxElements = () => {
         // lightBoxContent.focus();
         lightBoxContainer.setAttribute('aria-hidden', 'false');
         cards[1].parentNode.setAttribute('aria-hidden', 'true');
-    };
+    }
 
 
     function currentImage(event) {
@@ -347,7 +347,7 @@ const createLightboxElements = () => {
         const currentIndex = parseInt(event.target.parentElement.getAttribute('data-index'));
 
         showLightBox(currentIndex, mediaType);
-    };
+    }
 
     // Openning lightbox on clikc
     Array.from(cards).forEach(card => {
@@ -356,13 +356,13 @@ const createLightboxElements = () => {
             if(event.keyCode === 13) currentImage(event);
 
         });
-    })
+    });
 
     // Next and previous buttons area
-    function sliderImage(currentIndex) { showLightBox(index + currentIndex) };
+    function sliderImage(currentIndex) { showLightBox(index + currentIndex); }
 
-    function prevImage() { sliderImage(-1)};
-    function nextImage() { sliderImage(1)};
+    function prevImage() { sliderImage(-1);}
+    function nextImage() { sliderImage(1);}
 
     lightBoxPrev.addEventListener('click', prevImage);
     lightBoxNext.addEventListener('click', nextImage);
@@ -372,7 +372,7 @@ const createLightboxElements = () => {
         lightBoxContainer.style.display = 'none';
         lightBoxContainer.setAttribute('aria-hidden', 'true');
         cards[1].parentNode.setAttribute('aria-hidden', 'false');
-    };
+    }
 
     lightBoxXMark.addEventListener('click', closeLightbox);
     lightBoxXMark.addEventListener('keydown', (event) => {
@@ -415,15 +415,15 @@ const handleFormSubmit = (photograperName) => {
         // const formData = new FormData(formContact, document.querySelector('.contact_button'));
 
         const isFormEmpty = !Object.values(formData).every(value => !!value);
-       if(isFormEmpty) return ''
+       if(isFormEmpty) return '';
 
-        console.log(formData)
+        console.log(formData);
 
         event.target.reset();
         formContact.style.display = 'none';
 
         const confirmationMessage = document.createElement('p');
-        confirmationMessage.textContent = 'Merci pour votre message. La personne prendra contact avec vous dès que possible :)'
+        confirmationMessage.textContent = 'Merci pour votre message. La personne prendra contact avec vous dès que possible :)';
         confirmationMessage.style.cssText = 'text-align: center; font-size: 1.3rem; margin-top: 2rem;';
 
         headerElement.parentElement.appendChild(confirmationMessage);

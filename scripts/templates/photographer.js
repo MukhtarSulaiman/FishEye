@@ -22,7 +22,7 @@ function mainPhotographersTemplate(data) {
 
         return ( elements );
     }
-    return { name, picture, getUserCardDOM }
-};
+    return { name, picture, getUserCardDOM };
+}
 
 export { mainPhotographersTemplate };

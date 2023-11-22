@@ -5,6 +5,6 @@ function addingAtributes(element, attributes) {
             element.setAttribute(key, attributes[key]);
         }
     }
-};
+}
 
 export { addingAtributes };
