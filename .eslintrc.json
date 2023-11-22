@@ -14,6 +14,7 @@
         "import/extensions": ["error", "always"],
         "import/prefer-default-export": ["off"],
         "arrow-parens": [2, "as-needed", { "requireForBlockBody": true }],
-        "radix": ["error", "as-needed"]
+        "radix": ["error", "as-needed"],
+        "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 0 }]
     }
 }

@@ -109,7 +109,7 @@ const addTotalLikesAndPricingInfo = (price) => {
     Array.from(document.querySelectorAll('.galary-wrapper .card i')).map((like) => {
         like.addEventListener('click', () => {
             const small = like.parentElement.firstElementChild;
-            const likes =  parseInt(small.textContent);
+            const likes = parseInt(small.textContent);
             const parsedTotalMediaLikes = parseInt(totalMediaLikes.textContent);
 
             let dataListener = like.getAttribute('data-listener');
@@ -182,7 +182,7 @@ const customizeSelectElement = () => {
 // ----------------------- Sorting media -----------------------
 const sortingMedia = (filteredPhotographerMedia, name, price) => {
 
-   filteredPhotographerMedia.sort((a, b) =>  b.likes - a.likes);
+   filteredPhotographerMedia.sort((a, b) => b.likes - a.likes);
 
     select.addEventListener('change', (event) => {
 
@@ -321,10 +321,10 @@ const createLightboxElements = () => {
             lightBoxVideo.style.display = 'none';
             lightBoxImage.style.display = 'block';
 
-            lightBoxImage.setAttribute('src',  mediaLocation.getAttribute('src'));
+            lightBoxImage.setAttribute('src', mediaLocation.getAttribute('src'));
             // lightBoxImage.setAttribute('alt', titleLocation);
 
-        } else if(mediaType === 'video' ||  tagName === 'video') {
+        } else if(mediaType === 'video' || tagName === 'video') {
 
             lightBoxImage.style.display = 'none';
             lightBoxVideo.style.display = 'block';
@@ -392,7 +392,7 @@ const createLightboxElements = () => {
 
 // ----------------------- Handles form inuts -----------------------
 const handleFormSubmit = (photograperName) => {
-    const formContact =  document.getElementById('form-contact');
+    const formContact = document.getElementById('form-contact');
     const firstName = document.getElementById('firstName');
     const lastName = document.getElementById('lastName');
     const email = document.getElementById('email');
