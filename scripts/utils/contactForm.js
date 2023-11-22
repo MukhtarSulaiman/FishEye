@@ -2,7 +2,7 @@ const closeModalBtn = document.querySelector('.close-modal');
 const modal = document.getElementById('contact_modal');
 
 function displayModal() {
-	modal.style.display = 'block';
+    modal.style.display = 'block';
     modal.firstElementChild.children[1].style.display = 'block';
 }
 

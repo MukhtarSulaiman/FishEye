@@ -61,7 +61,7 @@ const mediaFactory = (object, name, cardIndex) => {
 
             return `
                 <div class="card" data-index="${cardIndex++}" >        
-                    ${ mediaElement }
+                    ${mediaElement}
                     <figcaption>
                         <h2 aria-hidden="true">${media.title}</h2>
                         <div>
@@ -102,7 +102,7 @@ const addTotalLikesAndPricingInfo = (price) => {
             <span>${price}€ / jour</span>
         </div>`;
 
-        photographerMedia.innerHTML = likesAndPricing;
+    photographerMedia.innerHTML = likesAndPricing;
 
     const totalMediaLikes = document.querySelector('.photograph-likes-pricing span');
 
@@ -182,13 +182,13 @@ const customizeSelectElement = () => {
 // ----------------------- Sorting media -----------------------
 const sortingMedia = (filteredPhotographerMedia, name, price) => {
 
-   filteredPhotographerMedia.sort((a, b) => b.likes - a.likes);
+    filteredPhotographerMedia.sort((a, b) => b.likes - a.likes);
 
     select.addEventListener('change', (event) => {
 
         const filterType = event.target.value;
 
-       filteredPhotographerMedia.sort((a, b) => {
+        filteredPhotographerMedia.sort((a, b) => {
 
             if(filterType === 'popularity') {
 
@@ -407,16 +407,16 @@ const handleFormSubmit = (photograperName) => {
         event.preventDefault();
 
         const formData = {
-           [firstName.name]: firstName.value,
-           [lastName.name]: lastName.value,
-           [email.name]: email.value,
-           [message.name]: message.value
+            [firstName.name]: firstName.value,
+            [lastName.name]: lastName.value,
+            [email.name]: email.value,
+            [message.name]: message.value
         };
 
         // const formData = new FormData(formContact, document.querySelector('.contact_button'));
 
         const isFormEmpty = !Object.values(formData).every(value => !!value);
-       if(isFormEmpty) return '';
+        if(isFormEmpty) return '';
 
         console.log(formData);
 
