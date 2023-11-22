@@ -20,7 +20,7 @@
 	</head>
 	<body>
 		<header>
-			<a href="/" tabindex="1">
+			<a href="/" tabindex="1" aria-label="retour à la page d'accueil">
 				<img src="assets/images/logo.png" class="logo" alt="fisheye logo"/>
 			</a>
 		</header>
@@ -33,7 +33,7 @@
 				<div class="modal">
 					<header>
 						<h2>Contactez-moi</h2>
-						<button  onclick="closeModal()" aria-label="fermer le modal">
+						<button class="close-modal" aria-label="fermer le modal">
 							<img src="assets/icons/close.svg" alt="icône de fermeture" aria-hidden="true"/>
 						</button>
 					</header>
@@ -72,6 +72,7 @@
 			<!-- Affichage des medias -->
 			<section class="photograph-galary">
 				<div class="galary-wrapper" aria-hidden="false"></div>
+				<div class="photograph-total-likes"></div>
 			</section>
 		</main>
 

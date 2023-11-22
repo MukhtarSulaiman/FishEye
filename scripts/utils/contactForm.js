@@ -1,11 +1,21 @@
+const closeModalBtn = document.querySelector('.close-modal');
+const modal = document.getElementById('contact_modal');
+
 function displayModal() {
-    const modal = document.getElementById("contact_modal");
-	modal.style.display = "block";
-    modal.firstElementChild.children[1].style.display = "block";
+    modal.style.display = 'block';
+    modal.firstElementChild.children[1].style.display = 'block';
 }
 
 function closeModal() {
-    const modal = document.getElementById("contact_modal");
-    if (modal.firstElementChild.childElementCount >= 3) modal.firstElementChild.lastElementChild.remove();
-    modal.style.display = "none";
+    if (modal.firstElementChild.childElementCount >= 3) {
+        modal.firstElementChild.lastElementChild.remove();
+    }
+
+    modal.style.display = 'none';
 }
+
+closeModalBtn.addEventListener('click', closeModal);
+closeModalBtn.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeModal();
+    console.log(event.key);
+});

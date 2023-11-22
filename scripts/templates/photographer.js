@@ -20,9 +20,9 @@ function mainPhotographersTemplate(data) {
             </article>
         `;
 
-        return ( elements );
+        return elements;
     }
-    return { name, picture, getUserCardDOM }
-};
+    return { name, picture, getUserCardDOM };
+}
 
 export { mainPhotographersTemplate };

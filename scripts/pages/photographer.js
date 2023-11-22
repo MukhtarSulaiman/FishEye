@@ -1,22 +1,26 @@
-import { fetchPhotographers } from "../utils/fetchData.js";
+import { fetchPhotographers } from '../utils/fetchData.js';
 import { addingAtributes } from '../utils/addAttributes.js';
+
+const main = document.querySelector('main');
+const select = document.querySelector('.select-container>select');
 
 // ----------------------- Gets photograper ----------------------
 const getPhotographerData = async () => {
-    const ID = new URL(document.location.href).searchParams.get('id');
+    const photographerId = new URL(document.location.href).searchParams.get('id');
+    const ID = parseInt(photographerId);
 
     const data = await fetchPhotographers();
 
-    const filteredPhotographer = data.photographers.find(photographer => photographer.id == ID);
-    const filteredPhotographerMedia = data.media.filter(media => media.photographerId == ID);
-    
+    const filteredPhotographer = data.photographers.find(photographer => photographer.id === ID);
+    const filteredPhotographerMedia = data.media.filter(media => media.photographerId === ID);
+
     return { filteredPhotographer, filteredPhotographerMedia };
 };
 
 
 // ----------------------- Sets photograper header -----------------------
 const setPhotograperHeader = (name, city, country, tagline, portrait) => {
-    const photographerHeader = document.querySelector(".photograph-header");
+    const photographerHeader = document.querySelector('.photograph-header');
 
     const picture = `assets/images/photographers/${portrait}`;
 
@@ -27,7 +31,7 @@ const setPhotograperHeader = (name, city, country, tagline, portrait) => {
             <p>${tagline}</p>
             <!-- <small>200€/jour</small> -->
         </div>
-        <button class="contact_button" onclick="displayModal()" type="button" aria-label="Ouvrir le formulaire de contact" tabindex="2" aria-pressed="false">
+        <button class="contact_button" onclick="displayModal()" type="button" aria-label="Ouvrir le formulaire de contact" tabindex="2">
             Contactez-moi
         </button>
         <img src="${picture}" alt="${name}">
@@ -40,8 +44,7 @@ const setPhotograperHeader = (name, city, country, tagline, portrait) => {
 let totalLikes = 0;
 
 // ----------------------- Creates factory pattern -----------------------
-const mediaFactory = (object, name, cardIndex) => {  
-
+const mediaFactory = (object, name, cardIndex) => {
     const media = {
         title: object.title,
         mediaUrl: object.image ? object.image : object.video,
@@ -53,12 +56,12 @@ const mediaFactory = (object, name, cardIndex) => {
 
             const ExtentionType = media.mediaUrl.split('.')[1];
             const mediaElement = ExtentionType === 'mp4' ?
-                `<video tabindex=${5 + cardIndex} aria-label="le media ${media.title}" controls><source src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}"/></video>`
-                : `<img tabindex=${5 + cardIndex} src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}" alt="le médial ${media.title}">`                
-            
+                `<video tabindex=${5 + cardIndex} aria-label="ouvrir le media ${media.title}" controls><source src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}"/></video>`
+                : `<img tabindex=${5 + cardIndex} src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}" alt="le médial ${media.title}">`;
+
             return `
                 <div class="card" data-index="${cardIndex++}" >        
-                    ${ mediaElement }
+                    ${mediaElement}
                     <figcaption>
                         <h2 aria-hidden="true">${media.title}</h2>
                         <div>
@@ -67,21 +70,21 @@ const mediaFactory = (object, name, cardIndex) => {
                         </div>
                     </figcaption>
                 </div>`;
-        },
-    }       
+        }
+    };
     return media;
 };
 
 
 // ----------------------- Calls factory function -----------------------
 const callFactoryFunction = (filteredPhotographerMedia, name) => {
-    
-    const photographerMedia = document.querySelector(".galary-wrapper");
+    const photographerMedia = document.querySelector('.galary-wrapper');
     photographerMedia.replaceChildren();
 
     let cardIndex = 0;
+    totalLikes = 0;
 
-    filteredPhotographerMedia.forEach(media =>{ 
+    filteredPhotographerMedia.forEach((media) => {
         photographerMedia.innerHTML += mediaFactory(media, name, cardIndex++).createMedia();
     });
 };
@@ -89,7 +92,7 @@ const callFactoryFunction = (filteredPhotographerMedia, name) => {
 
 // ----------------------- Adding likes and pricing info -----------------------
 const addTotalLikesAndPricingInfo = (price) => {
-    const photographerMedia = document.querySelector(".galary-wrapper");
+    const photographerMedia = document.querySelector('.photograph-total-likes');
 
     const likesAndPricing = `
         <div class="photograph-likes-pricing">
@@ -99,40 +102,65 @@ const addTotalLikesAndPricingInfo = (price) => {
             <span>${price}€ / jour</span>
         </div>`;
 
-    photographerMedia.parentElement.innerHTML  += likesAndPricing;
+    photographerMedia.innerHTML = likesAndPricing;
 
-    const totalMediaLikes = document.querySelector(".photograph-likes-pricing span");
+    const totalMediaLikes = document.querySelector('.photograph-likes-pricing span');
 
-    Array.from(document.querySelectorAll('.galary-wrapper .card i')).map(like => {
+    Array.from(document.querySelectorAll('.galary-wrapper .card i')).map((like) => {
         like.addEventListener('click', () => {
-
             const small = like.parentElement.firstElementChild;
-            const likes =  parseInt(small.textContent);
-            small.textContent = likes + 1;
-            
+            const likes = parseInt(small.textContent);
             const parsedTotalMediaLikes = parseInt(totalMediaLikes.textContent);
-            totalMediaLikes.textContent = parsedTotalMediaLikes + 1;
-            
+
+            const dataListener = like.getAttribute('data-listener');
+
+            if (dataListener === null) {
+                like.setAttribute('data-listener', true);
+
+                small.textContent = likes + 1;
+                totalMediaLikes.textContent = parsedTotalMediaLikes + 1;
+
+            } else {
+                if (dataListener === 'false') {
+                    like.setAttribute('data-listener', true);
+                    small.textContent = likes + 1;
+                    totalMediaLikes.textContent = parsedTotalMediaLikes + 1;
+
+                } else {
+                    like.setAttribute('data-listener', false);
+                    small.textContent = likes - 1;
+                    totalMediaLikes.textContent = parsedTotalMediaLikes - 1;
+                }
+            }
         });
     });
 };
 
 // Customizing select
 const customizeSelectElement = () => {
-    const select = document.querySelector('.select-container>select');
-
     select.addEventListener('mousedown', (event) => {
-    
         select.parentElement.classList.toggle('select-collapse');
         event.preventDefault();
 
-
         const dropdown = document.createElement('ul');
+        addingAtributes(dropdown, {
+            role: 'listbox',
+            tabindex: '0',
+            'aria-activedescendant': 'listbox-1'
+        });
 
-        [...select.children].forEach(option => {
+        let listbox = 1;
+
+        [...select.children].forEach((option) => {
             const dropdownOptions = document.createElement('li');
             dropdownOptions.textContent = option.textContent;
             dropdown.appendChild(dropdownOptions);
+
+            addingAtributes(dropdownOptions, {
+                role: 'option',
+                id: `listbox-${listbox++}`,
+                'aria-selected': listbox === 1 ? 'true' : ''
+            });
 
             dropdownOptions.addEventListener('mousedown', (e) => {
                 event.stopPropagation();
@@ -144,7 +172,6 @@ const customizeSelectElement = () => {
                 dropdown.remove();
                 select.parentElement.classList.toggle('select-collapse');
             });
-
         });
 
         select.parentElement.appendChild(dropdown);
@@ -153,16 +180,17 @@ const customizeSelectElement = () => {
 
 
 // ----------------------- Sorting media -----------------------
-const sortingMedia = (filteredPhotographerMedia, name) => {
-    const select = document.querySelector('.select-container>select');
+const sortingMedia = (filteredPhotographerMedia, name, price) => {
+
+    filteredPhotographerMedia.sort((a, b) => b.likes - a.likes);
 
     select.addEventListener('change', (event) => {
 
         const filterType = event.target.value;
-        
-        const sortedPhotographerMedia = filteredPhotographerMedia.sort((a, b) => {
 
-            if(filterType === 'popularity') {
+        filteredPhotographerMedia.sort((a, b) => {
+
+            if (filterType === 'popularity') {
 
                 return b.likes - a.likes;
 
@@ -173,24 +201,28 @@ const sortingMedia = (filteredPhotographerMedia, name) => {
 
                 if (titleA < titleB) return -1;
                 if (titleA > titleB) return 1;
-                
-            } else if(filterType === 'date') {
+
+            } else if (filterType === 'date') {
                 if (new Date(a.date) > new Date(b.date)) return -1;
                 if (new Date(a.date) < new Date(b.date)) return 1;
             }
         });
-        // console.log(sortedPhotographerMedia);
-        callFactoryFunction(sortedPhotographerMedia, name);
+
+        callFactoryFunction(filteredPhotographerMedia, name);
+        addTotalLikesAndPricingInfo(price);
+        // eslint-disable-next-line no-use-before-define
         createLightboxElements();
     });
+    callFactoryFunction(filteredPhotographerMedia, name);
+    addTotalLikesAndPricingInfo(price);
+
 };
 
 
 // ----------------------- Creating lightbox -----------------------
 const createLightboxElements = () => {
-    const main = document.querySelector('main');
     const cards = document.getElementsByClassName('card');
-   
+
     // Creating elements
     const lightBoxContainer = document.createElement('section');
     const lightBoxContent = document.createElement('div');
@@ -212,43 +244,42 @@ const createLightboxElements = () => {
 
     const lightBoxContainerAttributes = {
         role: 'dialog',
-        'aria-modal': 'true',
-        // 'aria-hidden': 'true'
-    }
+        'aria-modal': 'true'
+    };
 
     const lightBoxContentAttributes = {
         id: 'lightbox-content',
         'aria-label': 'Vue rapprochée du média'
-    }
+    };
 
     const lightBoxMediaAttributes = {
         role: 'media',
         'aria-label': 'le média actuel'
-    }
+    };
 
     const lightBoxH2Attributes = {
         'aria-hidden': 'true'
-    }
+    };
 
     const lightBoxNextAttributes = {
         role: 'button',
-        tabindex: "101",
+        tabindex: '101',
         'aria-controls': 'lightbox-content',
         'aria-label': 'image suivante'
-    }
+    };
 
     const lightBoxPrevAttributes = {
         role: 'button',
-        tabindex: "100",
+        tabindex: '100',
         'aria-controls': 'lightbox-content',
         'aria-label': 'image précédente'
-    }
+    };
 
     const lightBoxXMarkAttributes = {
         role: 'button',
-        tabindex: "102",
+        tabindex: '102',
         'aria-label': 'fermer la bôite de dialogue'
-    }
+    };
 
     // Adding attributes
     addingAtributes(lightBoxContainer, lightBoxContainerAttributes);
@@ -261,7 +292,7 @@ const createLightboxElements = () => {
     addingAtributes(lightBoxXMark, lightBoxXMarkAttributes);
 
     // Appending child elements
-    lightBoxContainer.appendChild(lightBoxContent);  
+    lightBoxContainer.appendChild(lightBoxContent);
     lightBoxContent.appendChild(lightBoxImage);
     lightBoxContent.appendChild(lightBoxVideo);
     lightBoxContent.appendChild(lightBoxPrev);
@@ -269,31 +300,31 @@ const createLightboxElements = () => {
     lightBoxContent.appendChild(lightBoxXMark);
 
     main.appendChild(lightBoxContainer);
-   
+
     let index = 0;
 
     function showLightBox(currentIndex, mediaType) {
         index = currentIndex;
 
-        if(currentIndex === cards.length) index = 0;  
+        if (currentIndex === cards.length) index = 0;
         else if (currentIndex < 0) index = cards.length - 1;
 
         const mediaLocation = cards[index].children[0];
         const titleLocation = cards[index].children[1].children[0].textContent;
 
         lightBoxH2.innerHTML = titleLocation;
-        
-        const tagName = mediaLocation.tagName === 'IMG' ? 'img' : 'video'
 
-        if(mediaType === 'img' || tagName === 'img'){
+        const tagName = mediaLocation.tagName === 'IMG' ? 'img' : 'video';
+
+        if (mediaType === 'img' || tagName === 'img') {
 
             lightBoxVideo.style.display = 'none';
             lightBoxImage.style.display = 'block';
 
-            lightBoxImage.setAttribute('src',  mediaLocation.getAttribute('src'));
+            lightBoxImage.setAttribute('src', mediaLocation.getAttribute('src'));
             // lightBoxImage.setAttribute('alt', titleLocation);
 
-        } else if(mediaType === 'video' ||  tagName === 'video') {
+        } else if (mediaType === 'video' || tagName === 'video') {
 
             lightBoxImage.style.display = 'none';
             lightBoxVideo.style.display = 'block';
@@ -309,30 +340,30 @@ const createLightboxElements = () => {
         // lightBoxContent.focus();
         lightBoxContainer.setAttribute('aria-hidden', 'false');
         cards[1].parentNode.setAttribute('aria-hidden', 'true');
-    };
+    }
 
 
     function currentImage(event) {
-        const mediaType = event.target.localName;   
+        const mediaType = event.target.localName;
         const currentIndex = parseInt(event.target.parentElement.getAttribute('data-index'));
 
         showLightBox(currentIndex, mediaType);
-    };
+    }
 
     // Openning lightbox on clikc
-    Array.from(cards).forEach(card => {
+    Array.from(cards).forEach((card) => {
         card.children[0].addEventListener('click', currentImage);
         card.children[0].addEventListener('keydown', (event) => {
-            if(event.keyCode === 13) currentImage(event);
+            if (event.keyCode === 13) currentImage(event);
 
         });
-    })
+    });
 
     // Next and previous buttons area
-    function sliderImage(currentIndex) { showLightBox(index + currentIndex) };
+    function sliderImage(currentIndex) { showLightBox(index + currentIndex); }
 
-    function prevImage() { sliderImage(-1)};
-    function nextImage() { sliderImage(1)};
+    function prevImage() { sliderImage(-1); }
+    function nextImage() { sliderImage(1); }
 
     lightBoxPrev.addEventListener('click', prevImage);
     lightBoxNext.addEventListener('click', nextImage);
@@ -342,58 +373,60 @@ const createLightboxElements = () => {
         lightBoxContainer.style.display = 'none';
         lightBoxContainer.setAttribute('aria-hidden', 'true');
         cards[1].parentNode.setAttribute('aria-hidden', 'false');
-    };
+    }
 
     lightBoxXMark.addEventListener('click', closeLightbox);
     lightBoxXMark.addEventListener('keydown', (event) => {
-        if(event.key === 'Enter') closeLightbox();
+        if (event.key === 'Enter') closeLightbox();
     });
-    
+
     // Keyboard events
     document.addEventListener('keydown', (event) => {
-        if(event.key === 'Escape') closeLightbox();
-
-        else if(event.key === 'ArrowLeft') prevImage();
-        else if(event.key === 'ArrowRight') nextImage();
+        if (event.key === 'Escape') {
+            closeLightbox();
+            // eslint-disable-next-line no-undef
+            closeModal();
+        } else if (event.key === 'ArrowLeft') prevImage();
+        else if (event.key === 'ArrowRight') nextImage();
     });
 };
 
 
 // ----------------------- Handles form inuts -----------------------
 const handleFormSubmit = (photograperName) => {
-    const formContact =  document.getElementById('form-contact');
+    const formContact = document.getElementById('form-contact');
     const firstName = document.getElementById('firstName');
     const lastName = document.getElementById('lastName');
     const email = document.getElementById('email');
     const message = document.getElementById('message');
-    
-    let headerElement = formContact.parentElement.firstElementChild;
-    let formTitleContent = headerElement.firstElementChild;
 
-    formTitleContent.textContent += ' ' + photograperName;
-    
+    const headerElement = formContact.parentElement.firstElementChild;
+    const formTitleContent = headerElement.firstElementChild;
+
+    formTitleContent.textContent += ` ${photograperName}`;
+
     formContact.addEventListener('submit', (event) => {
         event.preventDefault();
-        
+
         const formData = {
-           [firstName.name]: firstName.value,
-           [lastName.name]: lastName.value,
-           [email.name]: email.value,
-           [message.name]: message.value
+            [firstName.name]: firstName.value,
+            [lastName.name]: lastName.value,
+            [email.name]: email.value,
+            [message.name]: message.value
         };
 
         // const formData = new FormData(formContact, document.querySelector('.contact_button'));
 
         const isFormEmpty = !Object.values(formData).every(value => !!value);
-       if(isFormEmpty) return ''
-      
-        console.log(formData)   
-        
+        if (isFormEmpty) return '';
+
+        console.log(formData);
+
         event.target.reset();
         formContact.style.display = 'none';
 
         const confirmationMessage = document.createElement('p');
-        confirmationMessage.textContent = 'Merci pour votre message. La personne prendra contact avec vous dès que possible :)'
+        confirmationMessage.textContent = 'Merci pour votre message. La personne prendra contact avec vous dès que possible :)';
         confirmationMessage.style.cssText = 'text-align: center; font-size: 1.3rem; margin-top: 2rem;';
 
         headerElement.parentElement.appendChild(confirmationMessage);
@@ -406,14 +439,11 @@ const initPhotographer = async () => {
     const { filteredPhotographer, filteredPhotographerMedia } = await getPhotographerData();
 
     const { id, name, city, country, tagline, price, portrait } = filteredPhotographer;
-     
+
     setPhotograperHeader(name, city, country, tagline, portrait);
-    callFactoryFunction(filteredPhotographerMedia, name);
-    addTotalLikesAndPricingInfo(price);
     customizeSelectElement();
-    sortingMedia(filteredPhotographerMedia, name);
+    sortingMedia(filteredPhotographerMedia, name, price);
     createLightboxElements();
     handleFormSubmit(name);
 };
 initPhotographer();
-

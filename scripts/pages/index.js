@@ -1,8 +1,8 @@
-import { mainPhotographersTemplate } from "../templates/photographer.js";
-import { fetchPhotographers } from "../utils/fetchData.js";
+import { mainPhotographersTemplate } from '../templates/photographer.js';
+import { fetchPhotographers } from '../utils/fetchData.js';
 
 async function displayData(photographers) {
-    const photographersSection = document.querySelector(".photographer-section");
+    const photographersSection = document.querySelector('.photographer-section');
 
     photographers.forEach((photographer) => {
         const photographerModel = mainPhotographersTemplate(photographer);
