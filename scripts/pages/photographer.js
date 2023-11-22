@@ -114,14 +114,14 @@ const addTotalLikesAndPricingInfo = (price) => {
 
             let dataListener = like.getAttribute('data-listener');
 
-            if(dataListener === null) {
+            if (dataListener === null) {
                 like.setAttribute('data-listener', true);
 
                 small.textContent = likes + 1;
                 totalMediaLikes.textContent = parsedTotalMediaLikes + 1;
 
             } else {
-                if(dataListener === 'false') {
+                if (dataListener === 'false') {
                     like.setAttribute('data-listener', true);
                     small.textContent = likes + 1;
                     totalMediaLikes.textContent = parsedTotalMediaLikes + 1;
@@ -190,7 +190,7 @@ const sortingMedia = (filteredPhotographerMedia, name, price) => {
 
         filteredPhotographerMedia.sort((a, b) => {
 
-            if(filterType === 'popularity') {
+            if (filterType === 'popularity') {
 
                 return b.likes - a.likes;
 
@@ -202,7 +202,7 @@ const sortingMedia = (filteredPhotographerMedia, name, price) => {
                 if (titleA < titleB) return -1;
                 if (titleA > titleB) return 1;
 
-            } else if(filterType === 'date') {
+            } else if (filterType === 'date') {
                 if (new Date(a.date) > new Date(b.date)) return -1;
                 if (new Date(a.date) < new Date(b.date)) return 1;
             }
@@ -306,7 +306,7 @@ const createLightboxElements = () => {
     function showLightBox(currentIndex, mediaType) {
         index = currentIndex;
 
-        if(currentIndex === cards.length) index = 0;
+        if (currentIndex === cards.length) index = 0;
         else if (currentIndex < 0) index = cards.length - 1;
 
         const mediaLocation = cards[index].children[0];
@@ -316,7 +316,7 @@ const createLightboxElements = () => {
 
         const tagName = mediaLocation.tagName === 'IMG' ? 'img' : 'video';
 
-        if(mediaType === 'img' || tagName === 'img'){
+        if (mediaType === 'img' || tagName === 'img'){
 
             lightBoxVideo.style.display = 'none';
             lightBoxImage.style.display = 'block';
@@ -324,7 +324,7 @@ const createLightboxElements = () => {
             lightBoxImage.setAttribute('src', mediaLocation.getAttribute('src'));
             // lightBoxImage.setAttribute('alt', titleLocation);
 
-        } else if(mediaType === 'video' || tagName === 'video') {
+        } else if (mediaType === 'video' || tagName === 'video') {
 
             lightBoxImage.style.display = 'none';
             lightBoxVideo.style.display = 'block';
@@ -354,7 +354,7 @@ const createLightboxElements = () => {
     Array.from(cards).forEach((card) => {
         card.children[0].addEventListener('click', currentImage);
         card.children[0].addEventListener('keydown', (event) => {
-            if(event.keyCode === 13) currentImage(event);
+            if (event.keyCode === 13) currentImage(event);
 
         });
     });
@@ -377,15 +377,15 @@ const createLightboxElements = () => {
 
     lightBoxXMark.addEventListener('click', closeLightbox);
     lightBoxXMark.addEventListener('keydown', (event) => {
-        if(event.key === 'Enter') closeLightbox();
+        if (event.key === 'Enter') closeLightbox();
     });
 
     // Keyboard events
     document.addEventListener('keydown', (event) => {
-        if(event.key === 'Escape') closeLightbox();
+        if (event.key === 'Escape') closeLightbox();
 
-        else if(event.key === 'ArrowLeft') prevImage();
-        else if(event.key === 'ArrowRight') nextImage();
+        else if (event.key === 'ArrowLeft') prevImage();
+        else if (event.key === 'ArrowRight') nextImage();
     });
 };
 
@@ -416,7 +416,7 @@ const handleFormSubmit = (photograperName) => {
         // const formData = new FormData(formContact, document.querySelector('.contact_button'));
 
         const isFormEmpty = !Object.values(formData).every(value => !!value);
-        if(isFormEmpty) return '';
+        if (isFormEmpty) return '';
 
         console.log(formData);
 

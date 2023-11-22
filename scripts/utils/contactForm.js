@@ -12,4 +12,4 @@ function closeModal() {
 }
 
 closeModalBtn.addEventListener('click', closeModal);
-closeModalBtn.addEventListener('keydown', (event) => { if(event.key === 'Escape') closeModal();});
+closeModalBtn.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeModal();});
