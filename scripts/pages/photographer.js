@@ -6,12 +6,13 @@ const select = document.querySelector('.select-container>select');
 
 // ----------------------- Gets photograper ----------------------
 const getPhotographerData = async () => {
-    const ID = new URL(document.location.href).searchParams.get('id');
+    const photographerId = new URL(document.location.href).searchParams.get('id');
+    const ID = parseInt(photographerId);
 
     const data = await fetchPhotographers();
 
-    const filteredPhotographer = data.photographers.find(photographer => photographer.id == ID);
-    const filteredPhotographerMedia = data.media.filter(media => media.photographerId == ID);
+    const filteredPhotographer = data.photographers.find(photographer => photographer.id === ID);
+    const filteredPhotographerMedia = data.media.filter(media => media.photographerId === ID);
 
     return { filteredPhotographer, filteredPhotographerMedia };
 };
@@ -120,7 +121,7 @@ const addTotalLikesAndPricingInfo = (price) => {
                 totalMediaLikes.textContent = parsedTotalMediaLikes + 1;
 
             } else {
-                if(dataListener == 'false') {
+                if(dataListener === 'false') {
                     like.setAttribute('data-listener', true);
                     small.textContent = likes + 1;
                     totalMediaLikes.textContent = parsedTotalMediaLikes + 1;

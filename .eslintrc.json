@@ -13,6 +13,7 @@
         "quotes": ["error", "single"],
         "import/extensions": ["error", "always"],
         "import/prefer-default-export": ["off"],
-        "arrow-parens": [2, "as-needed", { "requireForBlockBody": true }]
+        "arrow-parens": [2, "as-needed", { "requireForBlockBody": true }],
+        "radix": ["error", "as-needed"]
     }
 }
