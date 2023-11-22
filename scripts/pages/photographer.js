@@ -1,4 +1,4 @@
-import { fetchPhotographers } from "../utils/fetchData.js";
+import { fetchPhotographers } from '../utils/fetchData.js';
 import { addingAtributes } from '../utils/addAttributes.js';
 
 const main = document.querySelector('main');
@@ -19,7 +19,7 @@ const getPhotographerData = async () => {
 
 // ----------------------- Sets photograper header -----------------------
 const setPhotograperHeader = (name, city, country, tagline, portrait) => {
-    const photographerHeader = document.querySelector(".photograph-header");
+    const photographerHeader = document.querySelector('.photograph-header');
 
     const picture = `assets/images/photographers/${portrait}`;
 
@@ -79,7 +79,7 @@ const mediaFactory = (object, name, cardIndex) => {
 // ----------------------- Calls factory function -----------------------
 const callFactoryFunction = (filteredPhotographerMedia, name) => {
     
-    const photographerMedia = document.querySelector(".galary-wrapper");
+    const photographerMedia = document.querySelector('.galary-wrapper');
     photographerMedia.replaceChildren();
 
     let cardIndex = 0;
@@ -93,7 +93,7 @@ const callFactoryFunction = (filteredPhotographerMedia, name) => {
 
 // ----------------------- Adding likes and pricing info -----------------------
 const addTotalLikesAndPricingInfo = (price) => {
-    const photographerMedia = document.querySelector(".photograph-total-likes");
+    const photographerMedia = document.querySelector('.photograph-total-likes');
 
     const likesAndPricing = `
         <div class="photograph-likes-pricing">
@@ -105,7 +105,7 @@ const addTotalLikesAndPricingInfo = (price) => {
 
         photographerMedia.innerHTML = likesAndPricing;
 
-    const totalMediaLikes = document.querySelector(".photograph-likes-pricing span");
+    const totalMediaLikes = document.querySelector('.photograph-likes-pricing span');
 
     Array.from(document.querySelectorAll('.galary-wrapper .card i')).map(like => {
         like.addEventListener('click', () => {
@@ -265,21 +265,21 @@ const createLightboxElements = () => {
 
     const lightBoxNextAttributes = {
         role: 'button',
-        tabindex: "101",
+        tabindex: '101',
         'aria-controls': 'lightbox-content',
         'aria-label': 'image suivante'
     }
 
     const lightBoxPrevAttributes = {
         role: 'button',
-        tabindex: "100",
+        tabindex: '100',
         'aria-controls': 'lightbox-content',
         'aria-label': 'image précédente'
     }
 
     const lightBoxXMarkAttributes = {
         role: 'button',
-        tabindex: "102",
+        tabindex: '102',
         'aria-label': 'fermer la bôite de dialogue'
     }
 
@@ -447,4 +447,3 @@ const initPhotographer = async () => {
     handleFormSubmit(name);
 };
 initPhotographer();
-
