@@ -83,7 +83,7 @@ const callFactoryFunction = (filteredPhotographerMedia, name) => {
     let cardIndex = 0;
     totalLikes = 0;
 
-    filteredPhotographerMedia.forEach(media => {
+    filteredPhotographerMedia.forEach((media) => {
         photographerMedia.innerHTML += mediaFactory(media, name, cardIndex++).createMedia();
     });
 };
@@ -105,7 +105,7 @@ const addTotalLikesAndPricingInfo = (price) => {
 
     const totalMediaLikes = document.querySelector('.photograph-likes-pricing span');
 
-    Array.from(document.querySelectorAll('.galary-wrapper .card i')).map(like => {
+    Array.from(document.querySelectorAll('.galary-wrapper .card i')).map((like) => {
         like.addEventListener('click', () => {
             const small = like.parentElement.firstElementChild;
             const likes =  parseInt(small.textContent);
@@ -150,7 +150,7 @@ const customizeSelectElement = () => {
 
         let listbox = 1;
 
-        [...select.children].forEach(option => {
+        [...select.children].forEach((option) => {
             const dropdownOptions = document.createElement('li');
             dropdownOptions.textContent = option.textContent;
             dropdown.appendChild(dropdownOptions);
@@ -350,7 +350,7 @@ const createLightboxElements = () => {
     }
 
     // Openning lightbox on clikc
-    Array.from(cards).forEach(card => {
+    Array.from(cards).forEach((card) => {
         card.children[0].addEventListener('click', currentImage);
         card.children[0].addEventListener('keydown', (event) => {
             if(event.keyCode === 13) currentImage(event);

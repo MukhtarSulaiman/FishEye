@@ -12,6 +12,7 @@
         "indent": ["error", 4],
         "quotes": ["error", "single"],
         "import/extensions": ["error", "always"],
-        "import/prefer-default-export": ["off"]
+        "import/prefer-default-export": ["off"],
+        "arrow-parens": [2, "as-needed", { "requireForBlockBody": true }]
     }
 }
