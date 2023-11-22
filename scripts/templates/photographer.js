@@ -20,7 +20,7 @@ function mainPhotographersTemplate(data) {
             </article>
         `;
 
-        return ( elements );
+        return elements;
     }
     return { name, picture, getUserCardDOM };
 }
