@@ -112,7 +112,7 @@ const addTotalLikesAndPricingInfo = (price) => {
             const likes = parseInt(small.textContent);
             const parsedTotalMediaLikes = parseInt(totalMediaLikes.textContent);
 
-            let dataListener = like.getAttribute('data-listener');
+            const dataListener = like.getAttribute('data-listener');
 
             if (dataListener === null) {
                 like.setAttribute('data-listener', true);
@@ -398,10 +398,10 @@ const handleFormSubmit = (photograperName) => {
     const email = document.getElementById('email');
     const message = document.getElementById('message');
 
-    let headerElement = formContact.parentElement.firstElementChild;
-    let formTitleContent = headerElement.firstElementChild;
+    const headerElement = formContact.parentElement.firstElementChild;
+    const formTitleContent = headerElement.firstElementChild;
 
-    formTitleContent.textContent += ' ' + photograperName;
+    formTitleContent.textContent += ` ${ photograperName}`;
 
     formContact.addEventListener('submit', (event) => {
         event.preventDefault();
