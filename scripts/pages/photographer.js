@@ -12,7 +12,7 @@ const getPhotographerData = async () => {
 
     const filteredPhotographer = data.photographers.find(photographer => photographer.id == ID);
     const filteredPhotographerMedia = data.media.filter(media => media.photographerId == ID);
-    
+
     return { filteredPhotographer, filteredPhotographerMedia };
 };
 
@@ -43,8 +43,7 @@ const setPhotograperHeader = (name, city, country, tagline, portrait) => {
 let totalLikes = 0;
 
 // ----------------------- Creates factory pattern -----------------------
-const mediaFactory = (object, name, cardIndex) => {  
-    
+const mediaFactory = (object, name, cardIndex) => {
     const media = {
         title: object.title,
         mediaUrl: object.image ? object.image : object.video,
@@ -57,8 +56,8 @@ const mediaFactory = (object, name, cardIndex) => {
             const ExtentionType = media.mediaUrl.split('.')[1];
             const mediaElement = ExtentionType === 'mp4' ?
                 `<video tabindex=${5 + cardIndex} aria-label="ouvrir le media ${media.title}" controls><source src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}"/></video>`
-                : `<img tabindex=${5 + cardIndex} src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}" alt="le médial ${media.title}">`                
-            
+                : `<img tabindex=${5 + cardIndex} src="./assets/images/photographersWorks/${name.split(' ')[0]}/${media.mediaUrl}" alt="le médial ${media.title}">`;
+
             return `
                 <div class="card" data-index="${cardIndex++}" >        
                     ${ mediaElement }
@@ -71,21 +70,20 @@ const mediaFactory = (object, name, cardIndex) => {
                     </figcaption>
                 </div>`;
         },
-    }       
+    }
     return media;
 };
 
 
 // ----------------------- Calls factory function -----------------------
 const callFactoryFunction = (filteredPhotographerMedia, name) => {
-    
     const photographerMedia = document.querySelector('.galary-wrapper');
     photographerMedia.replaceChildren();
 
     let cardIndex = 0;
     totalLikes = 0;
 
-    filteredPhotographerMedia.forEach(media =>{ 
+    filteredPhotographerMedia.forEach(media => {
         photographerMedia.innerHTML += mediaFactory(media, name, cardIndex++).createMedia();
     });
 };
@@ -114,7 +112,7 @@ const addTotalLikesAndPricingInfo = (price) => {
             const parsedTotalMediaLikes = parseInt(totalMediaLikes.textContent);
 
             let dataListener = like.getAttribute('data-listener');
-           
+
             if(dataListener === null) {
                 like.setAttribute('data-listener', true);
 
@@ -140,15 +138,14 @@ const addTotalLikesAndPricingInfo = (price) => {
 // Customizing select
 const customizeSelectElement = () => {
     select.addEventListener('mousedown', (event) => {
-    
         select.parentElement.classList.toggle('select-collapse');
         event.preventDefault();
 
         const dropdown = document.createElement('ul');
         addingAtributes(dropdown, {
-             role: 'listbox', 
-             tabindex: '0',
-             'aria-activedescendant': 'listbox-1'
+            role: 'listbox',
+            tabindex: '0',
+            'aria-activedescendant': 'listbox-1'
         });
 
         let listbox = 1;
@@ -189,7 +186,7 @@ const sortingMedia = (filteredPhotographerMedia, name, price) => {
     select.addEventListener('change', (event) => {
 
         const filterType = event.target.value;
-        
+
        filteredPhotographerMedia.sort((a, b) => {
 
             if(filterType === 'popularity') {
@@ -203,13 +200,13 @@ const sortingMedia = (filteredPhotographerMedia, name, price) => {
 
                 if (titleA < titleB) return -1;
                 if (titleA > titleB) return 1;
-                
+
             } else if(filterType === 'date') {
                 if (new Date(a.date) > new Date(b.date)) return -1;
                 if (new Date(a.date) < new Date(b.date)) return 1;
             }
         });
-       
+
         callFactoryFunction(filteredPhotographerMedia, name);
         addTotalLikesAndPricingInfo(price);
         createLightboxElements();
@@ -223,7 +220,7 @@ const sortingMedia = (filteredPhotographerMedia, name, price) => {
 // ----------------------- Creating lightbox -----------------------
 const createLightboxElements = () => {
     const cards = document.getElementsByClassName('card');
-   
+
     // Creating elements
     const lightBoxContainer = document.createElement('section');
     const lightBoxContent = document.createElement('div');
@@ -294,7 +291,7 @@ const createLightboxElements = () => {
     addingAtributes(lightBoxXMark, lightBoxXMarkAttributes);
 
     // Appending child elements
-    lightBoxContainer.appendChild(lightBoxContent);  
+    lightBoxContainer.appendChild(lightBoxContent);
     lightBoxContent.appendChild(lightBoxImage);
     lightBoxContent.appendChild(lightBoxVideo);
     lightBoxContent.appendChild(lightBoxPrev);
@@ -302,20 +299,20 @@ const createLightboxElements = () => {
     lightBoxContent.appendChild(lightBoxXMark);
 
     main.appendChild(lightBoxContainer);
-   
+
     let index = 0;
 
     function showLightBox(currentIndex, mediaType) {
         index = currentIndex;
 
-        if(currentIndex === cards.length) index = 0;  
+        if(currentIndex === cards.length) index = 0;
         else if (currentIndex < 0) index = cards.length - 1;
 
         const mediaLocation = cards[index].children[0];
         const titleLocation = cards[index].children[1].children[0].textContent;
 
         lightBoxH2.innerHTML = titleLocation;
-        
+
         const tagName = mediaLocation.tagName === 'IMG' ? 'img' : 'video'
 
         if(mediaType === 'img' || tagName === 'img'){
@@ -346,7 +343,7 @@ const createLightboxElements = () => {
 
 
     function currentImage(event) {
-        const mediaType = event.target.localName;   
+        const mediaType = event.target.localName;
         const currentIndex = parseInt(event.target.parentElement.getAttribute('data-index'));
 
         showLightBox(currentIndex, mediaType);
@@ -381,7 +378,7 @@ const createLightboxElements = () => {
     lightBoxXMark.addEventListener('keydown', (event) => {
         if(event.key === 'Enter') closeLightbox();
     });
-    
+
     // Keyboard events
     document.addEventListener('keydown', (event) => {
         if(event.key === 'Escape') closeLightbox();
@@ -399,15 +396,15 @@ const handleFormSubmit = (photograperName) => {
     const lastName = document.getElementById('lastName');
     const email = document.getElementById('email');
     const message = document.getElementById('message');
-    
+
     let headerElement = formContact.parentElement.firstElementChild;
     let formTitleContent = headerElement.firstElementChild;
 
     formTitleContent.textContent += ' ' + photograperName;
-    
+
     formContact.addEventListener('submit', (event) => {
         event.preventDefault();
-        
+
         const formData = {
            [firstName.name]: firstName.value,
            [lastName.name]: lastName.value,
@@ -419,9 +416,9 @@ const handleFormSubmit = (photograperName) => {
 
         const isFormEmpty = !Object.values(formData).every(value => !!value);
        if(isFormEmpty) return ''
-      
-        console.log(formData)   
-        
+
+        console.log(formData)
+
         event.target.reset();
         formContact.style.display = 'none';
 
@@ -439,7 +436,7 @@ const initPhotographer = async () => {
     const { filteredPhotographer, filteredPhotographerMedia } = await getPhotographerData();
 
     const { id, name, city, country, tagline, price, portrait } = filteredPhotographer;
-     
+
     setPhotograperHeader(name, city, country, tagline, portrait);
     customizeSelectElement();
     sortingMedia(filteredPhotographerMedia, name, price);
