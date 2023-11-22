@@ -7,9 +7,15 @@ function displayModal() {
 }
 
 function closeModal() {
-    if (modal.firstElementChild.childElementCount >= 3) modal.firstElementChild.lastElementChild.remove();
+    if (modal.firstElementChild.childElementCount >= 3) {
+        modal.firstElementChild.lastElementChild.remove();
+    }
+
     modal.style.display = 'none';
 }
 
 closeModalBtn.addEventListener('click', closeModal);
-closeModalBtn.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeModal();});
+closeModalBtn.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeModal();
+    console.log(event.key);
+});

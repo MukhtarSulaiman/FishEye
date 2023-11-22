@@ -70,7 +70,7 @@ const mediaFactory = (object, name, cardIndex) => {
                         </div>
                     </figcaption>
                 </div>`;
-        },
+        }
     };
     return media;
 };
@@ -210,6 +210,7 @@ const sortingMedia = (filteredPhotographerMedia, name, price) => {
 
         callFactoryFunction(filteredPhotographerMedia, name);
         addTotalLikesAndPricingInfo(price);
+        // eslint-disable-next-line no-use-before-define
         createLightboxElements();
     });
     callFactoryFunction(filteredPhotographerMedia, name);
@@ -243,8 +244,7 @@ const createLightboxElements = () => {
 
     const lightBoxContainerAttributes = {
         role: 'dialog',
-        'aria-modal': 'true',
-        // 'aria-hidden': 'true'
+        'aria-modal': 'true'
     };
 
     const lightBoxContentAttributes = {
@@ -316,7 +316,7 @@ const createLightboxElements = () => {
 
         const tagName = mediaLocation.tagName === 'IMG' ? 'img' : 'video';
 
-        if (mediaType === 'img' || tagName === 'img'){
+        if (mediaType === 'img' || tagName === 'img') {
 
             lightBoxVideo.style.display = 'none';
             lightBoxImage.style.display = 'block';
@@ -362,8 +362,8 @@ const createLightboxElements = () => {
     // Next and previous buttons area
     function sliderImage(currentIndex) { showLightBox(index + currentIndex); }
 
-    function prevImage() { sliderImage(-1);}
-    function nextImage() { sliderImage(1);}
+    function prevImage() { sliderImage(-1); }
+    function nextImage() { sliderImage(1); }
 
     lightBoxPrev.addEventListener('click', prevImage);
     lightBoxNext.addEventListener('click', nextImage);
@@ -382,9 +382,11 @@ const createLightboxElements = () => {
 
     // Keyboard events
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') closeLightbox();
-
-        else if (event.key === 'ArrowLeft') prevImage();
+        if (event.key === 'Escape') {
+            closeLightbox();
+            // eslint-disable-next-line no-undef
+            closeModal();
+        } else if (event.key === 'ArrowLeft') prevImage();
         else if (event.key === 'ArrowRight') nextImage();
     });
 };
@@ -401,7 +403,7 @@ const handleFormSubmit = (photograperName) => {
     const headerElement = formContact.parentElement.firstElementChild;
     const formTitleContent = headerElement.firstElementChild;
 
-    formTitleContent.textContent += ` ${ photograperName}`;
+    formTitleContent.textContent += ` ${photograperName}`;
 
     formContact.addEventListener('submit', (event) => {
         event.preventDefault();

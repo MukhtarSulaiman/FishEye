@@ -19,6 +19,21 @@
         "operator-linebreak": ["error", "after", { "overrides": { "?": "ignore", ":": "ignore" } }],
         "no-plusplus": ["off"],
         "no-param-reassign": ["off", { "props": false }],
-        "array-callback-return": ["off"]
+        "array-callback-return": ["off"],
+        "padded-blocks":[ "off"],
+        "no-lonely-if": ["off"],
+        "comma-dangle": ["error", {
+            "arrays": "never",
+            "objects": "never",
+            "imports": "never",
+            "exports": "never",
+            "functions": "never"
+        }],
+        "no-unused-vars": ["off"],
+        "consistent-return": ["off"],
+        "no-else-return": ["error", { "allowElseIf": true}],
+        "object-curly-newline": ["error", { "consistent": true }],
+        "no-console": "off",
+        "no-restricted-syntax": ["error", "FunctionExpression", "WithStatement", "BinaryExpression[operator='in']"]
     }
 }
